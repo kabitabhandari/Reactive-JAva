@@ -6,6 +6,10 @@ import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.test.StepVerifier;
 
+import java.util.Locale;
+
+import static org.junit.Assert.assertEquals;
+
 @WebFluxTest(controllers = FluxMonoController.class)
 class FluxMonoControllerTest {
     //We would want to do @autowire WebTestClient in test class here, because we are intentionally injecting
@@ -119,10 +123,12 @@ class FluxMonoControllerTest {
                 .exchange()
                 .expectStatus()
                 .is2xxSuccessful()
-                .expectBodyList(String.class)
+                .expectBody(String.class)
                 .consumeWith(c -> {
                     var responseBody = c.getResponseBody();
-                    assert (responseBody != null ? responseBody.size() : 0) ==1;
+                    assert (responseBody != null ? responseBody.length() : 0) ==21;
+                    assertEquals ("hello-world-beginners", (responseBody));
+                    assertEquals ("HELLO-WORLD-BEGINNERS", (responseBody.toUpperCase(Locale.ROOT)));
                 });
 
     }
