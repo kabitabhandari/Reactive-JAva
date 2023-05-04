@@ -58,8 +58,9 @@ class FluxMonoControllerTest {
                 .getResponseBody();
 
         StepVerifier.create(flux)
-                .expectNext(8, 9, 4)
-                .expectComplete();
+                .expectNext(11, 21, 31)
+                .expectComplete()
+                .verify();
 
     }
 
@@ -130,6 +131,29 @@ class FluxMonoControllerTest {
                     assertEquals ("hello-world-beginners", (responseBody));
                     assertEquals ("HELLO-WORLD-BEGINNERS", (responseBody.toUpperCase(Locale.ROOT)));
                 });
+
+    }
+
+
+
+
+    @Test
+    void stream() {
+        var flux = webTestClient
+                .get()
+                .uri("/stream")
+                .exchange()
+                .expectStatus()
+                .is2xxSuccessful()
+                .returnResult(Long.class)
+                .getResponseBody();
+
+
+
+        StepVerifier.create(flux)
+                .expectNext(0L,1L, 2L, 3L)
+                .thenCancel()
+                .verify();
 
     }
 }
