@@ -17,7 +17,7 @@ import java.util.List;
 @Data // Takes care of getter, setter, toString
 @NoArgsConstructor
 @AllArgsConstructor
-@Document //In mongodb entity is represented a document.
+@Document //In mongodb entity is represented by a document annotation.
 @Validated
 public class MovieInfo {
     @Id
